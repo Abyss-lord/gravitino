@@ -53,7 +53,14 @@ public class DeleteUser extends Command {
   public void handle() {
     boolean deleted = false;
 
-    if (!AreYouSure.really(force)) {
+    boolean shouldProceed =
+        "anonymous".equalsIgnoreCase(user)
+            ? AreYouSure.really(
+                false,
+                "Are you sure you want to delete the anonymous user? This will cause unexpected behavior.")
+            : AreYouSure.really(force);
+
+    if (!shouldProceed) {
       return;
     }
 

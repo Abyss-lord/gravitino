@@ -20,11 +20,37 @@
 package org.apache.gravitino.cli;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TestAreYouSure {
+
+  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+  private final PrintStream originalOut = System.out;
+  private final PrintStream originalErr = System.err;
+
+  @BeforeEach
+  void setUp() {
+    System.setOut(new PrintStream(outContent));
+    System.setErr(new PrintStream(errContent));
+  }
+
+  @AfterEach
+  void restoreExitFlg() {
+    Main.useExit = true;
+  }
+
+  @AfterEach
+  public void restoreStreams() {
+    System.setOut(originalOut);
+    System.setErr(originalErr);
+  }
 
   @Test
   void testCommandWithForce() {
@@ -56,5 +82,16 @@ public class TestAreYouSure {
     System.setIn(inputStream);
 
     Assertions.assertFalse(AreYouSure.really(false));
+  }
+
+  @Test
+  void testCommandWithInputMessage() {
+    ByteArrayInputStream inputStream =
+        new ByteArrayInputStream("Y".getBytes(StandardCharsets.UTF_8));
+    System.setIn(inputStream);
+
+    Assertions.assertTrue(AreYouSure.really(false, "output information"));
+    String output = new String(outContent.toByteArray(), StandardCharsets.UTF_8).trim();
+    Assertions.assertEquals("output information", output);
   }
 }

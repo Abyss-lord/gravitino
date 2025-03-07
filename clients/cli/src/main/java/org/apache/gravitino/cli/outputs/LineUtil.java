@@ -191,4 +191,40 @@ public class LineUtil {
   public static String getComment(org.apache.gravitino.rel.Column column) {
     return column.comment() == null ? "N/A" : column.comment();
   }
+
+  /**
+   * Return true if the specified character sequence is blank, false otherwise. same as
+   * org.apache.commons.lang3.String.isBlank()
+   *
+   * @param cs the character sequence to check.
+   * @return true if the specified character sequence is blank, false otherwise.
+   */
+  public static boolean isBlank(CharSequence cs) {
+    int strLen = length(cs);
+    if (strLen == 0) {
+      return true;
+    } else {
+      for (int i = 0; i < strLen; ++i) {
+        if (!Character.isWhitespace(cs.charAt(i))) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+  }
+
+  /**
+   * Return true if the specified character sequence is not blank, false otherwise.
+   *
+   * @param cs the character sequence to check.
+   * @return true if the specified character sequence is not blank, false otherwise.
+   */
+  public static boolean isNotBlanks(CharSequence cs) {
+    return !isBlank(cs);
+  }
+
+  private static int length(CharSequence cs) {
+    return cs == null ? 0 : cs.length();
+  }
 }

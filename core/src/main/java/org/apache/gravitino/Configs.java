@@ -318,4 +318,24 @@ public class Configs {
           .stringConf()
           .toSequence()
           .createWithDefault(Collections.emptyList());
+
+  public static final ConfigEntry<String> SERVER_URIS =
+      new ConfigBuilder("gravitino.server.webserver.uris")
+          .doc("Default uris for the web server")
+          .version(ConfigConstants.VERSION_0_9_0)
+          .stringConf();
+
+  public static final ConfigEntry<Integer> CLIENT_CONNECTION_RETRIES =
+      new ConfigBuilder("gravitino.client.connection.retries")
+          .doc("Number of retries for failure")
+          .version(ConfigConstants.VERSION_0_9_0)
+          .intConf()
+          .createWithDefault(3);
+
+  public static final ConfigEntry<Integer> CLIENT_CONNECT_RETRY_DELAY =
+      new ConfigBuilder("gravitino.client.connect.retry.delay")
+          .doc("Number of seconds for the client to wait between consecutive connection attempts")
+          .version(ConfigConstants.VERSION_0_9_0)
+          .intConf()
+          .createWithDefault(1);
 }

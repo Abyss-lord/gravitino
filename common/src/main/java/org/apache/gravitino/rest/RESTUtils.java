@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;
 import java.net.ServerSocket;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -169,5 +171,33 @@ public class RESTUtils {
       }
     }
     throw new IOException("No available port in the range: " + portRangeStart + ":" + portRangeEnd);
+  }
+
+  /**
+   * Validate a URI.
+   *
+   * @param uri The URI to validate.
+   * @throws URISyntaxException if the URI is invalid.
+   */
+  public static void validateUri(String uri) throws URISyntaxException {
+    URI tmpUri = new URI(uri);
+
+    if (tmpUri.getScheme() == null) {
+      throw new IllegalArgumentException("URI: " + uri + " does not have a scheme");
+    }
+
+    if (!("http".equalsIgnoreCase(tmpUri.getScheme())
+        || "https".equalsIgnoreCase(tmpUri.getScheme()))) {
+      throw new IllegalArgumentException(
+          "URI: " + uri + " has an unsupported scheme. Only HTTP and HTTPS are supported");
+    }
+
+    if (tmpUri.getHost() == null) {
+      throw new IllegalArgumentException("URI: " + uri + " does not have a host");
+    }
+
+    if (tmpUri.getPort() == -1) {
+      throw new IllegalArgumentException("URI: " + uri + " does not have a port");
+    }
   }
 }

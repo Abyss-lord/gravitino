@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.google.common.collect.ImmutableMap;
 import java.io.IOException;
 import java.util.Map;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class TestRESTUtils {
@@ -104,5 +105,18 @@ class TestRESTUtils {
       int port = RESTUtils.findAvailablePort(startPort, startPort + i);
       assertTrue(port >= startPort && port <= startPort + i);
     }
+  }
+
+  @Test
+  void testValidateUri() {
+    Assertions.assertDoesNotThrow(() -> RESTUtils.validateUri("http://localhost:8090"));
+    Assertions.assertDoesNotThrow(() -> RESTUtils.validateUri("http://192.168.0.30:8090"));
+
+    Assertions.assertThrows(
+        IllegalArgumentException.class, () -> RESTUtils.validateUri("thrift://localhost:8090/"));
+    Assertions.assertThrows(
+        IllegalArgumentException.class, () -> RESTUtils.validateUri("http://:8090/"));
+    Assertions.assertThrows(
+        IllegalArgumentException.class, () -> RESTUtils.validateUri("http://localhost/"));
   }
 }

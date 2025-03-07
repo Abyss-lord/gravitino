@@ -31,6 +31,16 @@ dependencies {
   implementation(project(":api"))
   implementation(project(":clients:client-java"))
   implementation(project(":common"))
+  implementation(libs.httpclient5)
+  implementation(project(":server-common")) {
+    exclude("org.apache.logging.log4j")
+  }
+  implementation(project(":core")) {
+    exclude("org.apache.logging.log4j")
+  }
+  implementation(project(":server")) {
+    exclude("org.apache.logging.log4j")
+  }
 
   testImplementation(libs.junit.jupiter.api)
   testImplementation(libs.junit.jupiter.params)
@@ -39,15 +49,6 @@ dependencies {
   testImplementation(libs.postgresql.driver)
   testImplementation(libs.testcontainers)
 
-  testImplementation(project(":core")) {
-    exclude("org.apache.logging.log4j")
-  }
-  testImplementation(project(":server")) {
-    exclude("org.apache.logging.log4j")
-  }
-  testImplementation(project(":server-common")) {
-    exclude("org.apache.logging.log4j")
-  }
   testImplementation(project(":integration-test-common", "testArtifacts"))
   testRuntimeOnly(libs.junit.jupiter.engine)
 }

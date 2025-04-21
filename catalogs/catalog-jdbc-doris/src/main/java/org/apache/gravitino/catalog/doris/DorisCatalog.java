@@ -40,7 +40,6 @@ public class DorisCatalog extends JdbcCatalog {
 
   public static final DorisTablePropertiesMetadata DORIS_TABLE_PROPERTIES_META =
       new DorisTablePropertiesMetadata();
-  dsadsdsaddasda
 
   @Override
   public String shortName() {

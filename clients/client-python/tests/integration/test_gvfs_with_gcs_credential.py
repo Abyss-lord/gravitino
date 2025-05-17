@@ -54,6 +54,12 @@ class TestGvfsWithGCSCredential(TestGvfsWithGCS):
             GVFSConfig.GVFS_FILESYSTEM_ENABLE_CREDENTIAL_VENDING: True,
         }
 
+    def setUp(self):
+        self.options = {
+            f"{GVFSConfig.GVFS_FILESYSTEM_GCS_SERVICE_KEY_FILE}": self.key_file,
+            GVFSConfig.GVFS_FILESYSTEM_ENABLE_CREDENTIAL_VENDING: True,
+        }
+
     @classmethod
     def _init_test_entities(cls):
         cls.gravitino_admin_client.create_metalake(

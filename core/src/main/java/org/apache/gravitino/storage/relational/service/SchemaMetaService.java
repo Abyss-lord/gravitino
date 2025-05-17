@@ -92,6 +92,7 @@ public class SchemaMetaService {
       baseMetricName = "getSchemaIdByMetalakeNameAndCatalogNameAndSchemaName")
   public SchemaIds getSchemaIdByMetalakeNameAndCatalogNameAndSchemaName(
       String metalakeName, String catalogName, String schemaName) {
+    System.out.println("test");
     return SessionUtils.getWithoutCommit(
         SchemaMetaMapper.class,
         mapper ->
